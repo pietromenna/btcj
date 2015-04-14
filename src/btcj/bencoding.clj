@@ -1,17 +1,20 @@
 (ns btcj.bencoding)
 
-(defn bencode-string [x] ())
+(def string-separator ":" )
 
-(defn bdecode-string [x] ())
+(defn bencode-string [input-string] 
+  (str (count input-string) string-separator input-string))
 
-(defn bencode-int [x] ())
+(defn bdecode-string [encoded-string] ()))
 
-(defn bdecode-int [x] ())
+(defn bencode-int [input-int] ())
 
-(defn bencode-list [x] ())
+(defn bdecode-int [encoded-int] ())
 
-(defn bdecode-list [x] ())
+(defn bencode-list [input-list] ())
 
-(defn bencode-dict [x] ())
+(defn bdecode-list [encoded-list] ())
 
-(defn bdecode-dict [x] ())
+(defn bencode-dict [input-dict] ())
+
+(defn bdecode-dict [encoded-dict] ())
