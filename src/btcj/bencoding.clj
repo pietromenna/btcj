@@ -20,7 +20,8 @@
 (defn bencode-int [input-int] 
   (str int-begin-delimiter input-int common-end-delimiter))
 
-(defn bdecode-int [encoded-int] ())
+(defn bdecode-int [encoded-int] 
+  (Integer. (apply str (drop 1 (reverse (drop 1 (reverse encoded-int)))))))
 
 (defn bencode-list [input-list] 
   (str list-begin-delimiter (apply str (map bencode-commons input-list)) common-end-delimiter))
