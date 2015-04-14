@@ -58,6 +58,12 @@
 
 (fact (bencode-dict {} ) => "de")
 
+(fact (bencode-dict {"cow" "moo", "spam" "eggs"} ) => "d3:cow3:moo4:spam4:eggse" )
+
+(fact (bencode-dict {"spam" ["a", "b"]} ) => "d4:spaml1:a1:bee" )
+
+(fact (bencode-dict { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } ) => "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee")
+
 (fact (bdecode-dict "de") => {} )
 
 (fact (bdecode-dict "d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
