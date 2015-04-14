@@ -62,7 +62,7 @@
 
 (fact (bencode-dict {"spam" ["a", "b"]} ) => "d4:spaml1:a1:bee" )
 
-(fact (bencode-dict { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } ) => "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee")
+(fact (bencode-dict { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } ) => "d18:publisher.location4:home17:publisher-webpage15:www.example.com9:publisher3:bobe")
 
 (fact (bdecode-dict "de") => {} )
 
