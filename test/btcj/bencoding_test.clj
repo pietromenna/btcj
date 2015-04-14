@@ -56,12 +56,12 @@
 ; Example: d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee represents { "publisher" => "bob", "publisher-webpage" => "www.example.com", "publisher.location" => "home" } 
 ; Example: de represents an empty dictionary {}
 
-(fact (bencode-list {} ) => "de")
+(fact (bencode-dict {} ) => "de")
 
-(fact (bdecode-list "de") => {} )
+(fact (bdecode-dict "de") => {} )
 
-(fact (bdecode-list "d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
+(fact (bdecode-dict "d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
 
-(fact (bdecode-list "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
+(fact (bdecode-dict "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
 
-(fact (bdecode-list "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee") => { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } )
+(fact (bdecode-dict "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee") => { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } )
