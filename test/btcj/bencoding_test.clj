@@ -16,11 +16,9 @@
 ; Example: 4:spam represents the string "spam" 
 ; Example: 0: represents the empty string ""
 
-(fact (bdecode-stream "4:spam") => "spam" )
+(fact (bdecode-string "4:spam") => "spam" )
 
-(fact (bdecode-stream "0:") => "" )
-
-(fact (bdecode-stream "4:spam3:yes") => '( "spam" "yes") )
+(fact (bdecode-string "0:") => "" )
 
 (fact (bencode-string "") => "0:" )
 
@@ -34,7 +32,11 @@
 
 (fact (bencode-int 3) => "i3e")
 
-(fact (bdecode-stream "i3e") => 3 )
+(fact (bdecode-int "i3e") => 3 )
+
+; Test multiple atoms
+
+(fact (bdecode-stream "4:spam3:yes") => '( "spam" "yes") )
 
 ; Lists
 ; Lists are encoded as follows: l<bencoded values>e
