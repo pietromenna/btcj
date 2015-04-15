@@ -63,7 +63,12 @@
                             (apply str (str (bencode-commons (key x)) (bencode-commons (val x))))) ] 
   (str dict-begin-delimiter (apply str (map bencode-key-value input-dict)) common-end-delimiter)))
 
-(defn bdecode-dict [encoded-dict] ())
+(defn bdecode-dict [encoded-dict] 
+   (let [inner-elements (drop 1 (drop-last 1 encoded-dict))]
+   (if (= 0 (count inner-elements))
+     (hash-map)
+     (apply hash-map (bdecode-stream inner-elements))))
+   )
 
 (defn bdecode-atoms [stream]
   (let [stream-rest (rest-stream stream)]
