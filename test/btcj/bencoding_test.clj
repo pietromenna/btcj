@@ -34,6 +34,14 @@
 
 (fact (bdecode-int "i3e") => 3 )
 
+; Test multiple atoms
+
+(fact (bdecode-stream "4:spam3:yes") => '( "spam" "yes") )
+
+(fact (bdecode-stream "i1ei2e") => '( 1 2) )
+
+(fact (bdecode-stream "4:spami1e") => '( "spam" 1) )
+
 ; Lists
 ; Lists are encoded as follows: l<bencoded values>e
 ; The initial l and trailing e are beginning and ending delimiters. Lists may contain any bencoded type, including integers, strings, dictionaries, and even lists within other lists.
@@ -42,11 +50,11 @@
 
 (fact (bencode-list []) => "le")
 
-(fact (bdecode-list "le") => [] )
+(fact (bdecode-stream "le") => [] )
 
 (fact (bencode-list []) => "le")
 
-(fact (bdecode-list "l4:spam4:eggse") => [ "spam", "eggs" ]  )
+(fact (bdecode-stream "l4:spam4:eggse") => [ "spam", "eggs" ]  )
 
 ; Dictionaries
 ; Dictionaries are encoded as follows: d<bencoded string><bencoded element>e 
@@ -56,12 +64,18 @@
 ; Example: d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee represents { "publisher" => "bob", "publisher-webpage" => "www.example.com", "publisher.location" => "home" } 
 ; Example: de represents an empty dictionary {}
 
-(fact (bencode-list {} ) => "de")
+(fact (bencode-dict {} ) => "de")
 
-(fact (bdecode-list "de") => {} )
+(fact (bencode-dict {"cow" "moo", "spam" "eggs"} ) => "d3:cow3:moo4:spam4:eggse" )
 
-(fact (bdecode-list "d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
+(fact (bencode-dict {"spam" ["a", "b"]} ) => "d4:spaml1:a1:bee" )
 
-(fact (bdecode-list "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
+(fact (bencode-dict { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } ) => "d18:publisher.location4:home17:publisher-webpage15:www.example.com9:publisher3:bobe")
 
-(fact (bdecode-list "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee") => { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } )
+(fact (bdecode-stream "de") => {} )
+
+(fact (bdecode-stream"d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
+
+(fact (bdecode-stream "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
+
+(fact (bdecode-stream "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee") => { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } )
