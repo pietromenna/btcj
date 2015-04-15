@@ -20,7 +20,7 @@
 
 (fact (bdecode-stream "0:") => "" )
 
-(fact (bdecode-stream "4:spam0:") => '( "spam" "") )
+(fact (bdecode-stream "4:spam3:yes") => '( "spam" "yes") )
 
 (fact (bencode-string "") => "0:" )
 
