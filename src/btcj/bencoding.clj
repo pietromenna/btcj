@@ -12,16 +12,17 @@
 
 (defn bencode-commons [input])
 
-(defn bdecode-commons [input])
+(defn bdecode-stream [input] )
 
 (defn bencode-string [input-string] 
   (str (count input-string) string-delimiter input-string))
 
 (defn bdecode-string [encoded-string] 
-  (let [length 
+  (let [descriptor-length
+        (count (apply str(take-while #(not (= \: %)) encoded-string)))
+        length 
         (Integer. (apply str(take-while #(not (= \: %)) encoded-string)))]
-        (apply str (take-last length encoded-string))
-    )
+    (apply str (take length (apply str (drop (+ descriptor-length 1) encoded-string)))))
   )
 
 (defn bencode-int [input-int] 
@@ -33,7 +34,12 @@
 (defn bencode-list [input-list] 
   (str list-begin-delimiter (apply str (map bencode-commons input-list)) common-end-delimiter))
 
-(defn bdecode-list [encoded-list] ())
+(defn bdecode-list [encoded-list] 
+  (let [inner-elements (drop 1 (drop-last 1 encoded-list))]
+   (if (= 0 (count inner-elements))
+     (vector)
+     (vector (bdecode-stream inner-elements))))
+   )
 
 (defn bencode-commons [input]
   (cond 
