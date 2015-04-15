@@ -2,11 +2,11 @@
 
 (def string-delimiter ":" )
 
-(def int-begin-delimiter "i" )
+(def int-begin-delimiter \i )
 
-(def list-begin-delimiter "l" )
+(def list-begin-delimiter \l )
 
-(def dict-begin-delimiter "d" )
+(def dict-begin-delimiter \d )
 
 (def common-end-delimiter "e" )
 
@@ -50,7 +50,7 @@
 
 (defn bdecode-dict [encoded-dict] ())
 
-(defn bdecode-commons [input] 
+(defn bdecode-stream [input] 
   (cond 
     (= (get input 0) int-begin-delimiter) (bdecode-int input)
     (= (get input 0) list-begin-delimiter) (bdecode-list input)

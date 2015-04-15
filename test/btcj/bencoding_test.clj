@@ -16,9 +16,9 @@
 ; Example: 4:spam represents the string "spam" 
 ; Example: 0: represents the empty string ""
 
-(fact (bdecode-string "4:spam") => "spam" )
+(fact (bdecode-stream "4:spam") => "spam" )
 
-(fact (bdecode-string "0:") => "" )
+(fact (bdecode-stream "0:") => "" )
 
 (fact (bencode-string "") => "0:" )
 
@@ -32,7 +32,7 @@
 
 (fact (bencode-int 3) => "i3e")
 
-(fact (bdecode-int "i3e") => 3 )
+(fact (bdecode-stream "i3e") => 3 )
 
 ; Lists
 ; Lists are encoded as follows: l<bencoded values>e
@@ -42,11 +42,11 @@
 
 (fact (bencode-list []) => "le")
 
-(fact (bdecode-list "le") => [] )
+(fact (bdecode-stream "le") => [] )
 
 (fact (bencode-list []) => "le")
 
-(fact (bdecode-list "l4:spam4:eggse") => [ "spam", "eggs" ]  )
+(fact (bdecode-stream "l4:spam4:eggse") => [ "spam", "eggs" ]  )
 
 ; Dictionaries
 ; Dictionaries are encoded as follows: d<bencoded string><bencoded element>e 
@@ -64,10 +64,10 @@
 
 (fact (bencode-dict { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } ) => "d18:publisher.location4:home17:publisher-webpage15:www.example.com9:publisher3:bobe")
 
-(fact (bdecode-dict "de") => {} )
+(fact (bdecode-stream "de") => {} )
 
-(fact (bdecode-dict "d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
+(fact (bdecode-stream"d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
 
-(fact (bdecode-dict "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
+(fact (bdecode-stream "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
 
-(fact (bdecode-dict "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee") => { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } )
+(fact (bdecode-stream "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee") => { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } )
