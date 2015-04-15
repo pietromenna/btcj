@@ -38,6 +38,10 @@
 
 (fact (bdecode-stream "4:spam3:yes") => '( "spam" "yes") )
 
+(fact (bdecode-stream "i1ei2e") => '( 1 2) )
+
+(fact (bdecode-stream "4:spami1e") => '( "spam" 1) )
+
 ; Lists
 ; Lists are encoded as follows: l<bencoded values>e
 ; The initial l and trailing e are beginning and ending delimiters. Lists may contain any bencoded type, including integers, strings, dictionaries, and even lists within other lists.

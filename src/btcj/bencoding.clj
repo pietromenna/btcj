@@ -17,7 +17,7 @@
 (defn rest-stream [stream]
   (let [first-atom-length 
     (if (= (get stream 0) int-begin-delimiter)
-       (count (re-seq #"\bi[0-9]+e" stream))
+       (count (apply str (re-seq #"\bi[0-9]+e" stream)))
        (+ (count (apply str(take-while #(not (= \: %)) stream)))
           (Integer. (apply str(take-while #(not (= \: %)) stream))) 1))]
     (apply str (drop first-atom-length stream))))
@@ -68,7 +68,10 @@
 (defn bdecode-atoms [stream]
   (let [stream-rest (rest-stream stream)]
     (cond 
-      (= (count stream-rest) 0) '()
+      (= (count stream-rest) 0) 
+        (if (= (get stream 0) int-begin-delimiter)
+          (list (bdecode-int stream))
+          (list (bdecode-string stream)))
       (= (get stream 0) int-begin-delimiter) (cons (bdecode-int stream) (bdecode-atoms stream-rest))
       :else (cons (bdecode-string stream) (bdecode-atoms stream-rest))
       )
