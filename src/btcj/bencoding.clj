@@ -12,7 +12,15 @@
 
 (defn bencode-commons [input])
 
-(defn bdecode-stream [input] )
+(defn bdecode-stream [input])
+
+(defn rest-stream [stream]
+  (let [first-atom-length 
+    (if (= (get stream 0) int-begin-delimiter)
+       (count (re-seq #"\bi[0-9]+e" stream))
+       (+ (count (apply str(take-while #(not (= \: %)) stream)))
+          (Integer. (apply str(take-while #(not (= \: %)) stream))) 1))]
+    (apply str (drop first-atom-length stream))))
 
 (defn bencode-string [input-string] 
   (str (count input-string) string-delimiter input-string))
@@ -28,8 +36,9 @@
 (defn bencode-int [input-int] 
   (str int-begin-delimiter input-int common-end-delimiter))
 
-(defn bdecode-int [encoded-int] 
-  (Integer. (apply str (drop 1 (drop-last 1 encoded-int)))))
+(defn bdecode-int [encoded-int]
+  (let [first-ocurrence (apply str (re-seq #"\bi[0-9]+e" encoded-int))]
+    (Integer. (apply str (drop 1 (drop-last 1 first-ocurrence))))))
 
 (defn bencode-list [input-list] 
   (str list-begin-delimiter (apply str (map bencode-commons input-list)) common-end-delimiter))
@@ -38,7 +47,7 @@
   (let [inner-elements (drop 1 (drop-last 1 encoded-list))]
    (if (= 0 (count inner-elements))
      (vector)
-     (vector (bdecode-stream inner-elements))))
+     (apply vector (bdecode-stream inner-elements))))
    )
 
 (defn bencode-commons [input]
@@ -56,11 +65,20 @@
 
 (defn bdecode-dict [encoded-dict] ())
 
+(defn bdecode-atoms [stream]
+  (let [stream-rest (rest-stream stream)]
+    (cond 
+      (= (count stream-rest) 0) '()
+      (= (get stream 0) int-begin-delimiter) (cons (bdecode-int stream) (bdecode-atoms stream-rest))
+      :else (cons (bdecode-string stream) (bdecode-atoms stream-rest))
+      )
+    )
+  )
+
 (defn bdecode-stream [input] 
   (cond 
-    (= (get input 0) int-begin-delimiter) (bdecode-int input)
     (= (get input 0) list-begin-delimiter) (bdecode-list input)
     (= (get input 0) dict-begin-delimiter) (bdecode-dict input)
-    :else (bdecode-string input)
+    :else (bdecode-atoms input)
     )
   )
