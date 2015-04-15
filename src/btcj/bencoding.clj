@@ -18,7 +18,11 @@
   (str (count input-string) string-delimiter input-string))
 
 (defn bdecode-string [encoded-string] 
-  "" )
+  (let [length 
+        (Integer. (apply str(take-while #(not (= \: %)) encoded-string)))]
+        (apply str (take-last length encoded-string))
+    )
+  )
 
 (defn bencode-int [input-int] 
   (str int-begin-delimiter input-int common-end-delimiter))
