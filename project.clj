@@ -3,7 +3,8 @@
   :url "http://github.com/pietromenna/btcj"
   :license {:name "MIT License"
             :url "http://opensource.org/licenses/MIT"}
-  :dependencies [[org.clojure/clojure "1.6.0"]]
+  :dependencies [[org.clojure/clojure "1.6.0"]
+                 [org.clojure/tools.cli "0.3.1"]]
   :profiles {:dev {;:global-vars {*warn-on-reflection* }
                    :dependencies [[midje "1.6.3"  :exclusions [org.clojure/clojure]]
                                   [org.clojars.runa/conjure "2.2.0"]]}}
