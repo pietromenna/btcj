@@ -70,15 +70,20 @@
      (apply hash-map (bdecode-stream inner-elements))))
    )
 
+(defn append-stream [new-item stream]
+  (if (list? stream)
+    (conj stream new-item)
+    (list new-item stream)))
+
 (defn bdecode-atoms [stream]
   (let [stream-rest (rest-stream stream)]
     (cond 
       (= (count stream-rest) 0) 
         (if (= (get stream 0) int-begin-delimiter)
-          (list (bdecode-int stream))
-          (list (bdecode-string stream)))
-      (= (get stream 0) int-begin-delimiter) (cons (bdecode-int stream) (bdecode-stream  stream-rest))
-      :else (cons (bdecode-string stream) (bdecode-stream  stream-rest))
+          (bdecode-int stream)
+          (bdecode-string stream))
+      (= (get stream 0) int-begin-delimiter) (append-stream (bdecode-int stream) (bdecode-stream  stream-rest))
+      :else (append-stream (bdecode-string stream) (bdecode-stream  stream-rest))
       )
     )
   )

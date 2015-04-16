@@ -38,6 +38,10 @@
 
 (fact (bdecode-stream "4:spam3:yes") => '( "spam" "yes") )
 
+(fact (bdecode-stream "4:spam3:yes4:test") => '( "spam" "yes" "test") )
+
+(fact (bdecode-stream "4:spam3:yes4:testi55e") => '( "spam" "yes" "test" 55) )
+
 (fact (bdecode-stream "i1ei2e") => '( 1 2) )
 
 (fact (bdecode-stream "4:spami1e") => '( "spam" 1) )
