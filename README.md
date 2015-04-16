@@ -2,6 +2,8 @@
 
 A Clojure library designed to ... well, that part is up to you.
 
+![Travis CI](https://travis-ci.org/pietromenna/btcj.svg?branch=master "Build Passing?")
+
 ## Usage
 
 FIXME
