@@ -1,16 +1,13 @@
-# btcj
-
-A Clojure library designed to ... well, that part is up to you.
-
 ![Travis CI](https://travis-ci.org/pietromenna/btcj.svg?branch=master "Build Passing?")
 
-## Usage
+# btcj
 
-FIXME
+A BitTorrent client implemented in Clojure.
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015 Pietro Francesco Menna Ruiz Diaz ([@pietromenna][1])
 
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Distributed under the MIT License.
+
+[1]: https://github.com/pietromenna
