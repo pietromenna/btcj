@@ -40,6 +40,10 @@
 
 (fact (metainfo_files single_file_mode_test) => ["flag.jpg"] )
 
+(fact (metainfo_info_length single_file_mode_test) => 1277987 )
+
+(fact (metainfo_info_pieces_length single_file_mode_test) => 16384 )
+
 (fact (metainfo_well_formed single_file_mode_test) => true )
 
 

@@ -19,4 +19,8 @@
 (defn metainfo_files [file_contents] 
   (vector ((file_contents info) "name")))
 
+(defn metainfo_info_length [] )
+
+(defn metainfo_info_pieces_length [] )
+
 (defn metainfo_well_formed [file_contents] )
