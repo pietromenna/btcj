@@ -37,7 +37,7 @@
 ; md5sum: (optional) a 32-character hexadecimal string corresponding to the MD5 sum of the file. This is not used by BitTorrent at all, but it is included by some programs for greater compatibility.
 
 
-(def single_file_mode_test (bdecode-stream (slurp "test/temp_test_file/tom.torrent")))
+(def single_file_mode_test (bdecode-stream (slurp "test/temp_test_file/tom.torrent" :encoding "ISO-8859-1")))
 
 (fact (metainfo_announce single_file_mode_test) => "http://thomasballinger.com:6969/announce" )
 
