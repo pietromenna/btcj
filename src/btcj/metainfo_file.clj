@@ -26,8 +26,7 @@
 (defn metainfo_info_number_of_pieces [file_contents]
   (count ((file_contents info) pieces)))
 
-; (defn metainfo_well_formed [file_contents] 
-;   (if (= (/ (metainfo_info_length file_contents) (metainfo_info_number_of_pieces file_contents))
-;             (/ (metainfo_info_number_of_pieces file_contents) 20))
-;     true
-;     false))
+(defn metainfo_well_formed_pieces [file_contents] 
+  (if (= (mod (metainfo_info_number_of_pieces file_contents) 20 ) 0)
+    true
+    false))

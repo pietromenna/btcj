@@ -47,7 +47,7 @@
 
 (fact (metainfo_info_pieces_length single_file_mode_test) => 16384 )
 
-;(fact (metainfo_well_formed single_file_mode_test) => true )
+(fact (metainfo_well_formed_pieces single_file_mode_test) => true )
 
 
 ; Info in Multiple File Mode
