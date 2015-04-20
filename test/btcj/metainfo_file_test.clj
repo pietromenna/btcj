@@ -5,6 +5,9 @@
 
 ; Metainfo File Structure
 ;========================
+; All the tests here are based in the unofficial BitTorrentSpecification. 
+; Source: https://wiki.theory.org/BitTorrentSpecification
+; =======
 ; All data in a metainfo file is bencoded. The specification for bencoding is defined above.
 
 ; The content of a metainfo file (the file ending in ".torrent") is a bencoded dictionary, containing the keys listed below. All character string values are UTF-8 encoded.
@@ -44,7 +47,7 @@
 
 (fact (metainfo_info_pieces_length single_file_mode_test) => 16384 )
 
-(fact (metainfo_well_formed single_file_mode_test) => true )
+;(fact (metainfo_well_formed single_file_mode_test) => true )
 
 
 ; Info in Multiple File Mode
