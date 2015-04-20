@@ -36,7 +36,7 @@
 
 (def single_file_mode_test (bdecode-stream (slurp "test/temp_test_file/tom.torrent")))
 
-(fact (metainfo_annouce single_file_mode_test) => "http://thomasballinger.com:6969/announce" )
+(fact (metainfo_announce single_file_mode_test) => "http://thomasballinger.com:6969/announce" )
 
 (fact (metainfo_files single_file_mode_test) => ["flag.jpg"] )
 
