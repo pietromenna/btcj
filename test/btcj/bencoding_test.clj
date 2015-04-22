@@ -83,3 +83,8 @@
 (fact (bdecode-stream "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
 
 (fact (bdecode-stream "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee") => { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } )
+
+; Seems like with bugs
+(fact (bdecode-stream "llee") => [[]] )
+
+(fact (bdecode-stream "d8:announce44:http://trackers.transamrit.net:8082/announce13:announce-listll44:http://tracker1.transamrit.net:8082/announce44:http://tracker2.transamrit.net:8082/announce44:http://tracker3.transamrit.net:8082/announceeee") => { "announce" "http://trackers.transamrit.net:8082/announce" "announce-list" [[ "http://tracker1.transamrit.net:8082/announce" "http://tracker2.transamrit.net:8082/announce" "http://tracker3.transamrit.net:8082/announce" ]]} )
