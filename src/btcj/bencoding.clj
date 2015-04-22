@@ -44,7 +44,7 @@
   (str list-begin-delimiter (apply str (map bencode-commons input-list)) common-end-delimiter))
 
 (defn bdecode-list [encoded-list] 
-  (let [inner-elements (drop 1 (drop-last 1 encoded-list))]
+  (let [inner-elements (apply str (drop 1 (drop-last 1 encoded-list)))]
    (if (= 0 (count inner-elements))
      (vector)
      (apply vector (bdecode-stream inner-elements))))
