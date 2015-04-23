@@ -10,9 +10,36 @@
 
 (def common-end-delimiter "e" )
 
-(defn bencode-commons [input])
+(defn bencode-data [input])
 
 (defn bdecode-stream [input])
+
+; B-ENconding functions
+
+(defn bencode-string [input-string] 
+  (str (count input-string) string-delimiter input-string))
+
+(defn bencode-int [input-int] 
+  (str int-begin-delimiter input-int common-end-delimiter))
+
+(defn bencode-list [input-list] 
+  (str list-begin-delimiter (apply str (map bencode-data input-list)) common-end-delimiter))
+
+(defn bencode-dict [input-dict]
+  (let [bencode-key-value (fn [x] 
+                            (apply str (str (bencode-data (key x)) (bencode-data (val x))))) ] 
+  (str dict-begin-delimiter (apply str (map bencode-key-value input-dict)) common-end-delimiter)))
+
+(defn bencode-data [input]
+  (cond 
+    (map? input) (bencode-dict input)
+    (vector? input) (bencode-list input)
+    (integer? input) (bencode-int input)
+    (string? input) (bencode-string input)
+    )
+  )
+
+; B-DEcoding functions
 
 (defn rest-stream [stream]
   (let [first-atom-length 
@@ -22,9 +49,6 @@
           (Integer. (apply str(take-while #(not (= \: %)) stream))) 1))]
     (apply str (drop first-atom-length stream))))
 
-(defn bencode-string [input-string] 
-  (str (count input-string) string-delimiter input-string))
-
 (defn bdecode-string [encoded-string] 
   (let [descriptor-length
         (count (apply str(take-while #(not (= \: %)) encoded-string)))
@@ -33,15 +57,9 @@
     (apply str (take length (apply str (drop (+ descriptor-length 1) encoded-string)))))
   )
 
-(defn bencode-int [input-int] 
-  (str int-begin-delimiter input-int common-end-delimiter))
-
 (defn bdecode-int [encoded-int]
   (let [first-ocurrence (apply str (re-seq #"\bi[0-9]+e" encoded-int))]
     (Integer. (apply str (drop 1 (drop-last 1 first-ocurrence))))))
-
-(defn bencode-list [input-list] 
-  (str list-begin-delimiter (apply str (map bencode-commons input-list)) common-end-delimiter))
 
 (defn bdecode-list [encoded-list] 
   (let [inner-elements (apply str (drop 1 (drop-last 1 encoded-list)))]
@@ -50,21 +68,8 @@
      (apply vector (bdecode-stream inner-elements))))
    )
 
-(defn bencode-commons [input]
-  (cond 
-    (vector? input) (bencode-list input)
-    (integer? input) (bencode-int input)
-    (string? input) (bencode-string input)
-    )
-  )
-
-(defn bencode-dict [input-dict]
-  (let [bencode-key-value (fn [x] 
-                            (apply str (str (bencode-commons (key x)) (bencode-commons (val x))))) ] 
-  (str dict-begin-delimiter (apply str (map bencode-key-value input-dict)) common-end-delimiter)))
-
 (defn bdecode-dict [encoded-dict] 
-   (let [inner-elements (drop 1 (drop-last 1 encoded-dict))]
+   (let [inner-elements (apply str (drop 1 (drop-last 1 encoded-dict)))]
    (if (= 0 (count inner-elements))
      (hash-map)
      (apply hash-map (bdecode-stream inner-elements))))

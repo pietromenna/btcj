@@ -65,3 +65,15 @@
 ; Every piece is of equal length except for the final piece, which is irregular. The number of pieces is thus determined by 'ceil( total length / piece size )'.
 ; For the purposes of piece boundaries in the multi-file case, consider the file data as one long continuous stream, composed of the concatenation of each file in the order listed in the files list. The number of pieces and their boundaries are then determined in the same manner as the case of a single file. Pieces may overlap file boundaries.
 ; Each piece has a corresponding SHA1 hash of the data contained within that piece. These hashes are concatenated to form the pieces value in the above info dictionary. Note that this is not a list but rather a single string. The length of the string must be a multiple of 20.
+
+; (def multifile_mode_test (bdecode-stream (slurp "test/temp_test_file/slackware.torrent" :encoding "ISO-8859-1")))
+
+; (fact (metainfo_announce multifile_mode_test) => "http://thomasballinger.com:6969/announce" )
+
+; (fact (metainfo_files multifile_mode_test) => ["flag.jpg"] )
+
+; (fact (metainfo_info_length multifile_mode_test) => 1277987 )
+
+; (fact (metainfo_info_pieces_length multifile_mode_test) => 16384 )
+
+; (fact (metainfo_well_formed_pieces multifile_mode_test) => true )

@@ -20,9 +20,9 @@
 
 (fact (bdecode-string "0:") => "" )
 
-(fact (bencode-string "") => "0:" )
+(fact (bencode-data "") => "0:" )
 
-(fact (bencode-string "spam") => "4:spam" )
+(fact (bencode-data "spam") => "4:spam" )
 
 ; Integers
 ; Integers are encoded as follows: i<integer encoded in base ten ASCII>e
@@ -30,7 +30,7 @@
 ; Example: i3e represents the integer "3"
 ; NOTE: The maximum number of bit of this integer is unspecified, but to handle it as a signed 64bit integer is mandatory to handle "large files" aka .torrent for more that 4Gbyte.
 
-(fact (bencode-int 3) => "i3e")
+(fact (bencode-data 3) => "i3e")
 
 (fact (bdecode-int "i3e") => 3 )
 
@@ -52,11 +52,11 @@
 ; Example: l4:spam4:eggse represents the list of two strings: [ "spam", "eggs" ] 
 ; Example: le represents an empty list: []
 
-(fact (bencode-list []) => "le")
+(fact (bencode-data []) => "le")
 
 (fact (bdecode-stream "le") => [] )
 
-(fact (bencode-list []) => "le")
+(fact (bencode-data [ "teste"]) => "l5:testee")
 
 (fact (bdecode-stream "l4:spam4:eggse") => [ "spam", "eggs" ]  )
 
@@ -68,13 +68,13 @@
 ; Example: d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee represents { "publisher" => "bob", "publisher-webpage" => "www.example.com", "publisher.location" => "home" } 
 ; Example: de represents an empty dictionary {}
 
-(fact (bencode-dict {} ) => "de")
+(fact (bencode-data {} ) => "de")
 
-(fact (bencode-dict {"cow" "moo", "spam" "eggs"} ) => "d3:cow3:moo4:spam4:eggse" )
+(fact (bencode-data {"cow" "moo", "spam" "eggs"} ) => "d3:cow3:moo4:spam4:eggse" )
 
-(fact (bencode-dict {"spam" ["a", "b"]} ) => "d4:spaml1:a1:bee" )
+(fact (bencode-data {"spam" ["a", "b"]} ) => "d4:spaml1:a1:bee" )
 
-(fact (bencode-dict { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } ) => "d18:publisher.location4:home17:publisher-webpage15:www.example.com9:publisher3:bobe")
+(fact (bencode-data { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } ) => "d18:publisher.location4:home17:publisher-webpage15:www.example.com9:publisher3:bobe")
 
 (fact (bdecode-stream "de") => {} )
 
