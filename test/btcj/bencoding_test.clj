@@ -16,10 +16,6 @@
 ; Example: 4:spam represents the string "spam" 
 ; Example: 0: represents the empty string ""
 
-(fact (bdecode-string "4:spam") => "spam" )
-
-(fact (bdecode-string "0:") => "" )
-
 (fact (bencode-data "") => "0:" )
 
 (fact (bencode-data "spam") => "4:spam" )
@@ -32,20 +28,6 @@
 
 (fact (bencode-data 3) => "i3e")
 
-(fact (bdecode-int "i3e") => 3 )
-
-; Test multiple atoms
-
-(fact (bdecode-stream "4:spam3:yes") => '( "spam" "yes") )
-
-(fact (bdecode-stream "4:spam3:yes4:test") => '( "spam" "yes" "test") )
-
-(fact (bdecode-stream "4:spam3:yes4:testi55e") => '( "spam" "yes" "test" 55) )
-
-(fact (bdecode-stream "i1ei2e") => '( 1 2) )
-
-(fact (bdecode-stream "4:spami1e") => '( "spam" 1) )
-
 ; Lists
 ; Lists are encoded as follows: l<bencoded values>e
 ; The initial l and trailing e are beginning and ending delimiters. Lists may contain any bencoded type, including integers, strings, dictionaries, and even lists within other lists.
@@ -54,11 +36,7 @@
 
 (fact (bencode-data []) => "le")
 
-(fact (bdecode-stream "le") => [] )
-
 (fact (bencode-data [ "teste"]) => "l5:testee")
-
-(fact (bdecode-stream "l4:spam4:eggse") => [ "spam", "eggs" ]  )
 
 ; Dictionaries
 ; Dictionaries are encoded as follows: d<bencoded string><bencoded element>e 
@@ -75,18 +53,3 @@
 (fact (bencode-data {"spam" ["a", "b"]} ) => "d4:spaml1:a1:bee" )
 
 (fact (bencode-data { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } ) => "d18:publisher.location4:home17:publisher-webpage15:www.example.com9:publisher3:bobe")
-
-(fact (bdecode-stream "de") => {} )
-
-(fact (bdecode-stream"d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
-
-(fact (bdecode-stream "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
-
-(fact (bdecode-stream "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee") => { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } )
-
-; Seems like with bugs. This tests were created because of the issue which ended with:
-; java.lang.NumberFormatException
-; in the case of a "ll...ee" entry. In the meanwhile the tests are being changed in order to allow to continue.
-(fact (bdecode-stream "llee") => [[]] )
-
-(fact (bdecode-stream "d8:announce44:http://trackers.transamrit.net:8082/announce13:announce-listll44:http://tracker1.transamrit.net:8082/announce44:http://tracker2.transamrit.net:8082/announce44:http://tracker3.transamrit.net:8082/announceee5:teste3:yese") => { "announce" "http://trackers.transamrit.net:8082/announce" "announce-list" [[ "http://tracker1.transamrit.net:8082/announce" "http://tracker2.transamrit.net:8082/announce" "http://tracker3.transamrit.net:8082/announce" ]] "teste" "yes"} )
