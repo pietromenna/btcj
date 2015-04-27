@@ -4,11 +4,13 @@
 
 ; Check Specification details in benconding_test.clj
 
+(fact (bdecode-stream "") => nil )
+
 (fact (bdecode-stream "i3e") => 3 )
 
 (fact (bdecode-stream "i15e") => 15 )
 
-(fact (bdecode-stream "i1ei2e") => '( 1 2) )
+(fact (bdecode-stream "i1ei2ei3ei4ei5e") => '( 1 2 3 4 5) )
 
 (fact (bdecode-stream "0:") => "" )
 
