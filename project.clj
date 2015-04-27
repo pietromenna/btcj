@@ -8,5 +8,6 @@
   :profiles {:dev {;:global-vars {*warn-on-reflection* }
                    :dependencies [[midje "1.6.3"  :exclusions [org.clojure/clojure]]
                                   [org.clojars.runa/conjure "2.2.0"]
-                                  [digest "1.4.4"]]}}
+                                  [digest "1.4.4"]
+                                  [ring/ring-codec "1.0.0"]]}}
   :plugins [[lein-midje "3.1.3"]])
