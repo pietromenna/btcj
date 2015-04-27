@@ -19,13 +19,20 @@
         (Integer. (apply str (drop 1 (drop-last 1 first-ocurrence))))
         (apply str (drop length-int-stream stream))))))
 
+(defn bdecode-string [stream] 
+  (let [descriptor-length
+        (count (apply str(take-while #(not (= \: %)) stream)))
+        length 
+        (Integer. (apply str(take-while #(not (= \: %)) stream)))]
+    (apply str (take length (apply str (drop (+ descriptor-length 1) stream))))))
+
 (defn bdecode-stream
   ([stream]
    (cond 
      (= (first stream) dict-begin-delimiter) (bdecode-dict stream)
      (= (first stream) list-begin-delimiter) (bdecode-list stream)
      (= (first stream) int-begin-delimiter) (bdecode-int stream)
-     (Character/isDigit (first stream)) ""))
+     (Character/isDigit (first stream)) (bdecode-string stream)))
   ([already-decoded stream]
    (if (coll? already-decoded)
      (conj already-decoded (bdecode-stream stream))

@@ -12,7 +12,11 @@
 
 (fact (bdecode-stream "0:") => "" )
 
-;(fact (bdecode-stream "4:spam") => "spam" )
+(fact (bdecode-stream "4:spam") => "spam" )
+
+(fact (bdecode-stream "5:apple") => "apple" )
+
+(fact (bdecode-stream "6:banana") => "banana" )
 
 ;(fact (bdecode-stream "4:spam3:yes") => '( "spam" "yes") )
 
