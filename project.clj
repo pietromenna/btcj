@@ -7,5 +7,6 @@
                  [org.clojure/tools.cli "0.3.1"]]
   :profiles {:dev {;:global-vars {*warn-on-reflection* }
                    :dependencies [[midje "1.6.3"  :exclusions [org.clojure/clojure]]
-                                  [org.clojars.runa/conjure "2.2.0"]]}}
+                                  [org.clojars.runa/conjure "2.2.0"]
+                                  [digest "1.4.4"]]}}
   :plugins [[lein-midje "3.1.3"]])
