@@ -10,9 +10,9 @@
 
 (def common-end-delimiter "e" )
 
-(defn bencode-commons [input])
+(declare bencode-commons)
 
-(defn bdecode-stream [input])
+(declare bdecode-stream)
 
 (defn rest-stream [stream]
   (let [first-atom-length 
@@ -61,7 +61,7 @@
 (defn bencode-dict [input-dict]
   (let [bencode-key-value (fn [x] 
                             (apply str (str (bencode-commons (key x)) (bencode-commons (val x))))) ] 
-  (str dict-begin-delimiter (apply str (map bencode-key-value input-dict)) common-end-delimiter)))
+    (str dict-begin-delimiter (apply str (map bencode-key-value (sort-by first input-dict))) common-end-delimiter)))
 
 (defn bdecode-dict [encoded-dict] 
    (let [inner-elements (drop 1 (drop-last 1 encoded-dict))]
