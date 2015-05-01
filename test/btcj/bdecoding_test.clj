@@ -30,11 +30,15 @@
 
 (fact (bdecode-stream "le") => [] )
 
-(fact (bdecode-stream "l4:spam4:eggse") => [ "spam", "eggs" ]  )
+(fact (bdecode-stream "l4:spam4:eggse") => [ "spam", "eggs" ])
+
+(fact (bdecode-stream "l4:spam4:eggsi5ee") => [ "spam", "eggs",5 ])
+
+(fact (bdecode-stream "llee") => [[]])
 
 (fact (bdecode-stream "de") => {} )
 
-; (fact (bdecode-stream"d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
+;(fact (bdecode-stream"d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
 
 ; (fact (bdecode-stream "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
 
@@ -43,6 +47,5 @@
 ; Seems like with bugs. This tests were created because of the issue which ended with:
 ; java.lang.NumberFormatException
 ; in the case of a "ll...ee" entry. In the meanwhile the tests are being changed in order to allow to continue.
-; (fact (bdecode-stream "llee") => [[]] )
 
 ; (fact (bdecode-stream "d8:announce44:http://trackers.transamrit.net:8082/announce13:announce-listll44:http://tracker1.transamrit.net:8082/announce44:http://tracker2.transamrit.net:8082/announce44:http://tracker3.transamrit.net:8082/announceee5:teste3:yese") => { "announce" "http://trackers.transamrit.net:8082/announce" "announce-list" [[ "http://tracker1.transamrit.net:8082/announce" "http://tracker2.transamrit.net:8082/announce" "http://tracker3.transamrit.net:8082/announce" ]] "teste" "yes"} )

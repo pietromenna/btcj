@@ -4,6 +4,13 @@
 
 (defn bdecode-stream [] )
 
+(defn- append-items-from-coll [coll coll2]
+  (cond 
+    (map? coll2) (conj coll coll2)
+    (vector? coll2) (conj coll coll2)
+    (empty? coll2) coll
+    :else (append-items-from-coll (conj coll (first coll2)) (rest coll2))))
+
 (defn bdecode-dict [stream] 
   (hash-map))
 
@@ -11,7 +18,7 @@
   (let [inner-elements (apply str (drop 1 stream))]
      (if (= 1 (count inner-elements))
        (vector)
-       (apply vector (bdecode-stream inner-elements)))))
+       (append-items-from-coll [] (bdecode-stream inner-elements)))))
 
 (defn bdecode-int [stream] 
   (let [first-ocurrence (apply str (re-seq #"\bi[0-9]+e" stream))
@@ -62,5 +69,3 @@
     (if (or (empty? stream-rest) (= stream-rest common-end-delimiter))
       (bdecode-simple stream)
       (append (bdecode-stream stream-rest) (bdecode-simple stream)))))
-
-
