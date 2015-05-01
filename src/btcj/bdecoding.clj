@@ -24,11 +24,22 @@
 
 (defn rest-stream [stream]
   (cond 
+    (= 0 (count stream))
+      nil
     (= (first stream) int-begin-delimiter)
     (let [first-int (apply str (re-seq #"\bi[0-9]+e" stream))] 
       (if (= (count first-int) (count stream))
         nil
-          (apply str (drop (count first-int) stream))))))
+        (apply str (drop (count first-int) stream))))
+    (Character/isDigit (first stream))
+    (let [descriptor-length
+      (count (apply str(take-while #(not (= \: %)) stream)))
+      length
+      (Integer. (apply str(take-while #(not (= \: %)) stream)))
+      total-length (+ 1 descriptor-length length)]
+        (if (= (count stream) total-length)
+          nil
+          (apply str (drop total-length stream))))))
 
 (defn bdecode-simple [stream]
   (cond 
