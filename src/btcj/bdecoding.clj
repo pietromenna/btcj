@@ -8,7 +8,10 @@
   (hash-map))
 
 (defn bdecode-list [stream] 
-  (vector))
+  (let [inner-elements (apply str (drop 1 stream))]
+     (if (= 1 (count inner-elements))
+       (vector)
+       (apply vector (bdecode-stream inner-elements)))))
 
 (defn bdecode-int [stream] 
   (let [first-ocurrence (apply str (re-seq #"\bi[0-9]+e" stream))
@@ -43,7 +46,7 @@
 
 (defn bdecode-simple [stream]
   (cond 
-    (empty? stream) nil 
+    (empty? stream) nil
     (= (first stream) dict-begin-delimiter) (bdecode-dict stream)
     (= (first stream) list-begin-delimiter) (bdecode-list stream)
     (= (first stream) int-begin-delimiter) (bdecode-int stream)
@@ -56,7 +59,7 @@
 
 (defn bdecode-stream [stream]
   (let [stream-rest (rest-stream stream)]
-    (if (empty? stream-rest)
+    (if (or (empty? stream-rest) (= stream-rest common-end-delimiter))
       (bdecode-simple stream)
       (append (bdecode-stream stream-rest) (bdecode-simple stream)))))
 

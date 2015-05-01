@@ -30,7 +30,7 @@
 
 (fact (bdecode-stream "le") => [] )
 
-; (fact (bdecode-stream "l4:spam4:eggse") => [ "spam", "eggs" ]  )
+(fact (bdecode-stream "l4:spam4:eggse") => [ "spam", "eggs" ]  )
 
 (fact (bdecode-stream "de") => {} )
 
