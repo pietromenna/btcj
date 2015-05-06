@@ -1,11 +1,23 @@
 (ns btcj.tracker-comm-test
   (:require [midje.sweet :refer :all]
-            [btcj.tracker-comm :refer :all]))
+            [btcj.tracker-comm :refer :all]
+            [btcj.metainfo_file-test :refer :all]
+            [btcj.bencoding :refer :all]))
 
 ; Tracker HTTP/HTTPS Protocol
-; The tracker is an HTTP/HTTPS service which responds to HTTP GET requests. The requests include metrics from clients that help the tracker keep overall statistics about the torrent. The response includes a peer list that helps the client participate in the torrent. The base URL consists of the "announce URL" as defined in the metainfo (.torrent) file. The parameters are then added to this URL, using standard CGI methods (i.e. a '?' after the announce URL, followed by 'param=value' sequences separated by '&').
+; The tracker is an HTTP/HTTPS service which responds to HTTP GET requests. The requests include metrics from clients that help the tracker keep overall statistics about the torrent. 
+; The response includes a peer list that helps the client participate in the torrent. 
+; The base URL consists of the "announce URL" as defined in the metainfo (.torrent) file. 
+; The parameters are then added to this URL, using standard CGI methods (i.e. a '?' after the announce URL, 
+; followed by 'param=value' sequences separated by '&').
 
-; Note that all binary data in the URL (particularly info_hash and peer_id) must be properly escaped. This means any byte not in the set 0-9, a-z, A-Z, '.', '-', '_' and '~', must be encoded using the "%nn" format, where nn is the hexadecimal value of the byte. (See RFC1738 for details.)
+; Note that all binary data in the URL (particularly info_hash and peer_id) must be properly escaped. 
+; This means any byte not in the set 0-9, a-z, A-Z, '.', '-', '_' and '~', must be encoded using the "%nn" format, where nn is the hexadecimal value of the byte. 
+;(See RFC1738 for details.)
+
+(def bencoded_info_single_file (bencode-dict (single_file_mode_test "info")))
+
+(fact (sha-1 bencoded_info_single_file) => "2b15ca2bfd48cdd76d39ec55a3ab1b8a57180a09" )
 
 ; For a 20-byte hash of \x12\x34\x56\x78\x9a\xbc\xde\xf1\x23\x45\x67\x89\xab\xcd\xef\x12\x34\x56\x78\x9a,
 ; The right encoded form is %124Vx%9A%BC%DE%F1%23Eg%89%AB%CD%EF%124Vx%9A
