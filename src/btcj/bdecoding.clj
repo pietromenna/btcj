@@ -12,7 +12,10 @@
     :else (append-items-from-coll (conj coll (first coll2)) (rest coll2))))
 
 (defn bdecode-dict [stream] 
-  (hash-map))
+  (let [inner-elements (apply str (drop 1 stream))]
+    (if (= 1 (count inner-elements))
+      (hash-map)
+      (apply hash-map (bdecode-stream inner-elements)))))
 
 (defn bdecode-list [stream] 
   (let [inner-elements (apply str (drop 1 stream))]

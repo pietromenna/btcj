@@ -38,9 +38,9 @@
 
 (fact (bdecode-stream "de") => {} )
 
-;(fact (bdecode-stream"d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
+(fact (bdecode-stream"d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
 
-; (fact (bdecode-stream "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
+;(fact (bdecode-stream "d4:spaml1:a1:bee") => {"spam" ["a", "b"]} )
 
 ; (fact (bdecode-stream "d9:publisher3:bob17:publisher-webpage15:www.example.com18:publisher.location4:homee") => { "publisher" "bob", "publisher-webpage" "www.example.com", "publisher.location" "home" } )
 
