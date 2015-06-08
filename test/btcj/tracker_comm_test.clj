@@ -21,7 +21,12 @@
 
 (fact (sha1-to-form-encoded "2b15ca2bfd48cdd76d39ec55a3ab1b8a57180a09") => "%2B%15%CA%2B%FDH%CD%D7m9%ECU%A3%AB%1B%8AW%18%0A%09")
 
-(fact (sha1-to-form-encoded "2b15ca2bfd48cdd76d39ec55a3ab1b8a57180a09") => "%2B%15%CA%2B%FDH%CD%D7m9%ECU%A3%AB%1B%8AW%18%0A%09")
+(fact (prepare-map-for-request single_file_mode_test) => {:info_hash "%2B%15%CA%2B%FDH%CD%D7m9%ECU%A3%AB%1B%8AW%18%0A%09"
+        							:peer_id "ABCDEFGHIJK123456789"
+        							:port 19999
+        							:uploaded 0
+        							:downloaded 0
+        							:compact 0 })
 
 ; For a 20-byte hash of \x12\x34\x56\x78\x9a\xbc\xde\xf1\x23\x45\x67\x89\xab\xcd\xef\x12\x34\x56\x78\x9a,
 ; The right encoded form is %124Vx%9A%BC%DE%F1%23Eg%89%AB%CD%EF%124Vx%9A
