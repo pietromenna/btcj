@@ -17,9 +17,9 @@
       (hash-map)
       (apply hash-map (bdecode-stream inner-elements)))))
 
-(defn bdecode-list [stream] 
+(defn bdecode-list [stream]
   (let [inner-elements (apply str (drop 1 stream))]
-     (if (= 1 (count inner-elements))
+     (if (or (= 1 (count inner-elements)) (= common-end-delimiter (first inner-elements)))
        (vector)
        (append-items-from-coll [] (bdecode-stream inner-elements)))))
 
@@ -62,7 +62,7 @@
     (= (first stream) int-begin-delimiter) (bdecode-int stream)
     (Character/isDigit (first stream)) (bdecode-string stream)))
 
-(defn append [item1 item2]
+(defn- append [item1 item2]
   (if (= (coll? item1) (coll? item2) false)
          (list item2 item1)
          (conj item1 item2)))

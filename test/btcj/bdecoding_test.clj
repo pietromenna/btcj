@@ -36,6 +36,10 @@
 
 (fact (bdecode-stream "llee") => [[]])
 
+;(fact (bdecode-stream "lele") => '([] []) )
+
+;(fact (bdecode-stream "4:spaml1:a1:be") => '("spam" ["a", "b"]) )
+
 (fact (bdecode-stream "de") => {} )
 
 (fact (bdecode-stream"d3:cow3:moo4:spam4:eggse") => {"cow" "moo", "spam" "eggs"} )
